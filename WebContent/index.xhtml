@@ -6,11 +6,88 @@
 
 <h:head>
 	<title>Consumo de MS</title>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+						library="primefaces" />
 </h:head>
 
 <h:body>
 
-	<h1>Projeto de Consumo de Microsserviços</h1>
+	<h1 style="color: green;"> Projeto de Consumo de Microsserviços </h1>
+
+	<hr />
+
+	<h3>Alunos: Guilherme Alves Melo</h3>
+	<h3>Professor: Marcelo</h3>
+	<h3>Disciplina: Computação Orientada a Serviços</h3>
+
+	<h:form id="form">
+
+		<p:panel id="panel_geral">
+
+			<p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+
+			<div class="ui-fluid">
+
+				<div class="p-field">
+
+					<p:outputLabel>
+						<i class="pi pi-user-plus"></i>&#160;
+						<h:outputText value="Nome:" />
+					</p:outputLabel>
+					<p:inputText id="nome" required="true"
+								 value="#{indexController.pessoa.nome}" />
+				</div>
+
+				<br />
+
+				<div class="p-field">
+					<p:outputLabel>
+						<i class="pi pi-id-card"></i>&#160;
+						<h:outputText value="CPF:" />
+					</p:outputLabel>
+					<p:inputMask mask="999.999.999-99" required="true" id="cpf"
+								 value="#{indexController.pessoa.cpf}" />
+				</div>
+
+				<br />
+
+				<div class="p-field">
+					<p:outputLabel>
+						<i class="pi pi-calendar"></i>&#160;
+						<h:outputText value="Idade:" />
+					</p:outputLabel>
+					<p:inputText id="idade" required="true"
+								 value="#{indexController.pessoa.idade}" />
+				</div>
+
+				<br /> <br />
+
+				<div class="p-field">
+					<p:outputLabel>
+						<i class="pi pi-file"></i>&#160;
+						<h:outputText value="Nome do Arquivo:" />
+					</p:outputLabel>
+					<p:inputText id="nome_arq" required="true"
+								 value="#{indexController.nome_arquivo}" />
+				</div>
+			</div>
+
+			<br />
+			<br />
+
+			<p:commandButton value="Salvar e gerar arquivo" icon="pi pi-file"
+							 action="#{indexController.salvar}" styleClass="btnIncluir"
+							 process="@form" update="@form" />
+
+			<p:commandButton value="Limpar" icon="pi pi-times" process="@this"
+							 update="panel_geral" action="#{indexController.limpar}">
+				<p:ajax update="@form" resetValues="true" />
+			</p:commandButton>
+
+		</p:panel>
+	</h:form>
 
 </h:body>
 </html>
