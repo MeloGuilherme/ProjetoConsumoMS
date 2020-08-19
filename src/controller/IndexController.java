@@ -22,7 +22,7 @@ public class IndexController implements Serializable {
 	public static final String PATH_FILES = File.separator + "arquivos_gerados";
 	public static final String PATH = PATH_FILES + File.separator + "arqs_gerados";
 
-	public boolean validaCpfApi(String cpf) {
+	public String validaCpfApi(String cpf) {
 
 		try {
 
@@ -34,15 +34,15 @@ public class IndexController implements Serializable {
 
 			getPessoa().setCpf(wr.get(String.class));
 
-			return true;
+			return cpf;
 		}
 
 		catch (Exception e){
 
 			e.printStackTrace();
-			Util.addMessageError("Erro ao conectar com a API de validar CPF.");
+			Util.addMessageError("CPF inválido!.");
 
-			return false;
+			return null;
 		}
 
 	}
@@ -51,9 +51,17 @@ public class IndexController implements Serializable {
 
 		try {
 
-			if(validaCpfApi(getPessoa().getNome())){
+			getPessoa().setCpf(validaCpfApi(getPessoa().getCpf()));
 
-				System.out.println("Tudo ok com o CPF!");
+			if(!getPessoa().getCpf().equals(null)){
+
+				Util.addMessageInfo("CPF válido!");
+				gerarArquivo();
+			}
+
+			else {
+
+				Util.addMessageError("CPF Inválido!");
 			}
 
 		}
@@ -62,18 +70,6 @@ public class IndexController implements Serializable {
 
 			e.printStackTrace();
 			Util.addMessageError("CPF inválido!");
-			return;
-		}
-
-		try {
-
-			gerarArquivo();
-		}
-
-		catch (IOException e) {
-
-			e.printStackTrace();
-			Util.addMessageError("Ocorreu algum erro ao gerar arquivo!");
 			return;
 		}
 	}
