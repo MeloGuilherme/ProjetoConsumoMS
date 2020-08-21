@@ -30,17 +30,15 @@ public class IndexController implements Serializable {
 
 			cpf = cpf.replaceAll(" ", "%20");
 
-			WebResource wr = c.resource("http://192.168.10.20:8080/API-1.0-SNAPSHOT/valida_cpf/" + cpf);
+			WebResource wr = c.resource("http://192.168.10.35:8082/APICPF_war/valida_cpf/" + cpf);
 
-			getPessoa().setCpf(wr.get(String.class));
-
-			return cpf;
+			return wr.get(String.class);
 		}
 
 		catch (Exception e){
 
 			e.printStackTrace();
-			Util.addMessageError("CPF inválido!.");
+			Util.addMessageError("Ocorreu um problema na conexão com o microsserviço.");
 
 			return null;
 		}
@@ -51,9 +49,7 @@ public class IndexController implements Serializable {
 
 		try {
 
-			getPessoa().setCpf(validaCpfApi(getPessoa().getCpf()));
-
-			if(!getPessoa().getCpf().equals(null)){
+			if(validaCpfApi(getPessoa().getCpf()).equals("Valido")){
 
 				Util.addMessageInfo("CPF válido!");
 				gerarArquivo();
@@ -69,7 +65,7 @@ public class IndexController implements Serializable {
 		catch (Exception e){
 
 			e.printStackTrace();
-			Util.addMessageError("CPF inválido!");
+			Util.addMessageError("Ocorreu um erro na geração do arquivo!");
 			return;
 		}
 	}
@@ -116,6 +112,7 @@ public class IndexController implements Serializable {
 	public void limpar() {
 
 		setPessoa(null);
+		setNome_arquivo(null);
 	}
 
 	public Pessoa getPessoa() {
